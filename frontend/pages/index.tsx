@@ -1,9 +1,24 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { Input, Switch, Text, useTheme } from "@nextui-org/react";
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import { FaMoon, FaSearch, FaSun } from "react-icons/fa";
+import styles from "../styles/Home.module.css";
+import { useTheme as useNextTheme } from "next-themes";
+
+const YourComponent = () => (
+  <Image
+    src="/images/profile.jpg" // Route of the image file
+    height={144} // Desired size with correct aspect ratio
+    width={144} // Desired size with correct aspect ratio
+    alt="Your Name"
+  />
+);
 
 const Home: NextPage = () => {
+  const { setTheme } = useNextTheme();
+  const { isDark, type } = useTheme();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,46 +27,63 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <header className="shadow-sm">
+        <div className="flex items-center justify-between h-16 max-w-screen-xl px-4 mx-auto">
+          <div className="flex items-center space-x-4 justify-center">
+            <h1 className="flex mt-2">
+              <Text
+                h1
+                size={40}
+                css={{
+                  textGradient: "45deg, $pink300 0%, $blue400 100%",
+                }}
+                weight="bold"
+              >
+                api
+              </Text>
+              <Text h1 size={40}>
+                heim
+              </Text>
+            </h1>
+            <div>
+              <Input
+                clearable
+                contentRightStyling={false}
+                placeholder="Search"
+                contentRight={<FaSearch className="m-4" />}
+              />
+            </div>
+          </div>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <div className="flex justify-end flex-1 w-0 ">
+            <Switch
+              initialChecked={isDark}
+              size="xl"
+              shadow
+              iconOn={<FaMoon />}
+              iconOff={<FaSun />}
+              onChange={(e) => setTheme(e.target.checked ? "dark" : "light")}
+            />
+          </div>
         </div>
-      </main>
+
+        <div className="border-t border-gray-100 lg:hidden">
+          <nav className="flex items-center justify-center p-4 overflow-x-auto text-sm font-medium">
+            <a className="flex-shrink-0 pl-4 text-gray-900" href="">
+              About
+            </a>
+            <a className="flex-shrink-0 pl-4 text-gray-900" href="">
+              Blog
+            </a>
+            <a className="flex-shrink-0 pl-4 text-gray-900" href="">
+              Projects
+            </a>
+            <a className="flex-shrink-0 pl-4 text-gray-900" href="">
+              Contact
+            </a>
+          </nav>
+        </div>
+      </header>
 
       <footer className={styles.footer}>
         <a
@@ -59,14 +91,14 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
