@@ -1,8 +1,13 @@
 import { Button } from "@nextui-org/react";
 import { FaTrash } from "react-icons/fa";
 import { SiGraphql, SiOpenapiinitiative } from "react-icons/si";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import apiSlice, { set } from "../features/apiSlice";
 
 function Api(props: { api: any }) {
+  const currentApi = useAppSelector((state) => state.api.value);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="flex justify-center items-center m-2 mb-4">
       {
@@ -16,8 +21,9 @@ function Api(props: { api: any }) {
             )
           }
           color={props.api.apiType === "GRAPHQL" ? "secondary" : "primary"}
-          ghost
+          ghost={currentApi.id !== props.api.id}
           animated
+          onClick={() => dispatch(set(props.api))}
         >
           {props.api.name}
         </Button>
