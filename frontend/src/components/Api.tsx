@@ -22,6 +22,7 @@ function Api(props: { api: any }) {
           }
           color={props.api.apiType === "GRAPHQL" ? "secondary" : "primary"}
           ghost={currentApi.id !== props.api.id}
+          css={{ textTransform: "none" }}
           animated
           onClick={() => dispatch(set(props.api))}
         >

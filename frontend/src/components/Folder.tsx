@@ -7,6 +7,7 @@ import {
   FaFolderPlus,
   FaGreaterThan,
   FaPlus,
+  FaTrash,
 } from "react-icons/fa";
 import Api from "./Api";
 
@@ -28,6 +29,7 @@ function Folder(props: { folder: any }) {
             {props.folder.name}
           </Text>
         </button>
+        <FaTrash className="text-red-600 hover:text-red-700" size={20} />
         <Button
           auto
           size="lg"
