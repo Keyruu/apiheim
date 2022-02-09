@@ -13,11 +13,17 @@ import Api from "./Api";
 
 function Folder(props: { folder: any }) {
   const [expanded, setExpanded] = useState(false);
+  const [hover, setHover] = useState(false);
+
   return (
-    <div className="flex flex-col border border-slate-300 rounded-lg m-2">
-      <div className="flex flex-row items-center justify-start">
+    <div className="flex flex-col border border-slate-300 rounded-lg m-2 justify-center">
+      <div
+        className="flex flex-row items-center justify-center h-12"
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+      >
         <button
-          className="flex items-center justify-start mr-auto"
+          className="flex items-center justify-start flex-1"
           onClick={(_) => setExpanded(!expanded)}
         >
           {expanded ? (
@@ -29,15 +35,18 @@ function Folder(props: { folder: any }) {
             {props.folder.name}
           </Text>
         </button>
-        <FaTrash className="text-red-600 hover:text-red-700" size={20} />
-        <Button
-          auto
-          size="lg"
-          light
-          color="success"
-          className="hover:text-green-600"
-          icon={<FaPlus />}
-        />
+        {hover && (
+          <div className="flex flex-row justify-center items-center">
+            <FaTrash
+              className="text-red-600 hover:text-red-700 cursor-pointer mx-2"
+              size={20}
+            />
+            <FaPlus
+              className="text-green-500 hover:text-green-700 cursor-pointer mx-4"
+              size={20}
+            />
+          </div>
+        )}
       </div>
 
       {expanded &&

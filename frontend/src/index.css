@@ -19,6 +19,14 @@ a {
   box-sizing: border-box;
 }
 
+pre code {
+  color: var(--nextui-colors-code) !important;
+}
+
+code {
+  background: transparent !important;
+}
+
 /* .swagger-ui {
   filter: invert(88%) hue-rotate(180deg);
 }
@@ -26,3 +34,7 @@ a {
 .swagger-ui .highlight-code {
   filter: invert(100%) hue-rotate(180deg);
 } */
+
+.hacky-dark-mode {
+  filter: "invert(1) hue-rotate(180deg)" !important;
+}

@@ -1,11 +1,14 @@
 import { Button, Checkbox, Input, Modal, Row, Text } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { FaFolderPlus } from "react-icons/fa";
+import { fetchFolder, update } from "../app/folderSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Folder from "./Folder";
 
 function Apis() {
-  const [data, setData] = useState<any>([]);
-  const [isLoading, setLoading] = useState(false);
+  const data = useAppSelector((state) => state.folder.value);
+  const isLoading = useAppSelector((state) => state.folder.loading);
+  const dispatch = useAppDispatch();
   const [visible, setVisible] = useState(false);
   const [folderName, setFolderName] = useState("");
 
@@ -14,20 +17,27 @@ function Apis() {
     setVisible(false);
   };
   const submit = () => {
+    fetch("http://localhost:7000/api/v1/folder/", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: folderName,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        dispatch(fetchFolder());
+        setFolderName("");
+      });
     setVisible(false);
-    console.log("folder: ", folderName);
-    setFolderName("");
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetch("http://localhost:7000/api/v1/folder/")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      });
-  }, []);
+    dispatch(fetchFolder());
+  }, [dispatch]);
 
   if (isLoading) return <p>Loading...</p>;
   if (!data) return <p>No profile data</p>;

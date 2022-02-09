@@ -53,7 +53,14 @@ function App() {
             </div>
             <div className="w-full h-full">
               {api.name !== "" && (
-                <div className="mx-auto w-5/6 h-5/6 my-16 overflow-y-scroll border-2">
+                <div
+                  className="mx-auto w-5/6 h-5/6 my-16 overflow-y-scroll border-2 hacky-dark-mode"
+                  style={{
+                    filter: darkMode.value
+                      ? "invert(1) hue-rotate(180deg)"
+                      : "",
+                  }}
+                >
                   {api.apiType === "REST" && <SwaggerUI url={api.url} />}
                   {api.apiType === "GRAPHQL" && (
                     <GraphiQL
