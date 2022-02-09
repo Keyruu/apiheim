@@ -11,13 +11,16 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import java.util.List;
 
 @ApplicationScoped
-@Path("/apis")
+@Path("/api")
 public class ApiResource {
   @Inject
   ApiRepository apiRepository;
@@ -26,6 +29,13 @@ public class ApiResource {
   @Produces(MediaType.APPLICATION_JSON)
   public List<Api> getAllApis(@QueryParam("folder") boolean folder) {
     return folder ? apiRepository.listAll() : apiRepository.allApisWithoutFolder();
+  }
+
+  @Path("{id}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public Api getApi(@PathParam("id") Long id) {
+    return apiRepository.findById(id);
   }
 
   @POST
@@ -37,12 +47,11 @@ public class ApiResource {
     return api;
   }
 
+  @Path("{id}")
   @DELETE
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Transactional
-  public Api deleteApi(Api api) {
-    apiRepository.delete(api);
-    return api;
+  public Response deleteApi(@PathParam("id") String id) {
+    apiRepository.deleteById(Long.valueOf(id));
+    return Response.noContent().build();
   }
 }
