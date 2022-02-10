@@ -1,9 +1,10 @@
 import { Button, Checkbox, Input, Modal, Row, Text } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { FaFolderPlus } from "react-icons/fa";
-import { fetchFolder, update } from "../app/folderSlice";
+import { fetchFolder } from "../app/folderSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Folder from "./Folder";
+import FolderCreateModal from "./FolderCreateModal";
 
 function Apis() {
   const data = useAppSelector((state) => state.folder.value);
@@ -12,11 +13,12 @@ function Apis() {
   const [visible, setVisible] = useState(false);
   const [folderName, setFolderName] = useState("");
 
-  const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
   };
   const submit = () => {
+    if (folderName.trim() === "") return;
+
     fetch("http://localhost:7000/api/v1/folder/", {
       method: "POST", // or 'PUT'
       headers: {
@@ -35,6 +37,8 @@ function Apis() {
     setVisible(false);
   };
 
+  const handler = () => setVisible(true);
+
   useEffect(() => {
     dispatch(fetchFolder());
   }, [dispatch]);
@@ -50,42 +54,7 @@ function Apis() {
         </Text>
         <button className="ml-auto mr-6 text-green-500 hover:text-green-600">
           <FaFolderPlus size={30} onClick={handler} />
-          <Modal
-            closeButton
-            blur
-            aria-labelledby="modal-title"
-            open={visible}
-            onClose={closeHandler}
-          >
-            <Modal.Header>
-              <Text id="modal-title" size={18}>
-                Add a&nbsp;
-                <Text b size={18}>
-                  Folder
-                </Text>
-              </Text>
-            </Modal.Header>
-            <Modal.Body>
-              <Input
-                clearable
-                bordered
-                fullWidth
-                color="primary"
-                size="lg"
-                value={folderName}
-                onChange={(e) => setFolderName(e.target.value)}
-                placeholder="Name"
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button auto flat color="error" onClick={closeHandler}>
-                Close
-              </Button>
-              <Button auto onClick={submit}>
-                Add
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <FolderCreateModal visible={visible} setVisible={setVisible} />
         </button>
       </div>
       {data.map((folder: any) => (
