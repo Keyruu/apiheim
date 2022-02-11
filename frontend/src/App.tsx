@@ -40,8 +40,6 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const dispatch = useAppDispatch();
-  dispatch(fetchFolder());
   const darkMode = useDarkMode(false);
 
   const api = useAppSelector((state) => state.api.value);

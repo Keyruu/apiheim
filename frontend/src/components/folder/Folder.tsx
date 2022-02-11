@@ -2,7 +2,7 @@ import { Button, Card, Text } from "@nextui-org/react";
 import { useState } from "react";
 import { FaAngleDown, FaAngleRight, FaPlus, FaTrash } from "react-icons/fa";
 import { SiClickup } from "react-icons/si";
-import folderSlice, { collapse, expand } from "../../app/folderSlice";
+import { collapse, expand } from "../../app/expandedSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Api from "../api/Api";
 import ApiCreateModal from "../api/ApiCreateModal";
@@ -11,7 +11,7 @@ import FolderDeleteModal from "./FolderDeleteModal";
 function Folder(props: { folder: any }) {
   // const [expanded, setExpanded] = useState(false);
   const expanded = useAppSelector(
-    (state) => state.folder.expanded.indexOf(props.folder.id) !== -1
+    (state) => state.expanded.expanded.indexOf(props.folder.id) !== -1
   );
   const dispatch = useAppDispatch();
   const [hover, setHover] = useState(false);

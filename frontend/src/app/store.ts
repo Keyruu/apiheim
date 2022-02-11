@@ -1,11 +1,13 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import apiSlice from './apiSlice';
-import folderSlice from './folderSlice'
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import apiSlice from "./apiSlice";
+import expandedSlice from "./expandedSlice";
+import folderSlice from "./folderSlice";
 
 export const store = configureStore({
   reducer: {
     api: apiSlice,
-    folder: folderSlice
+    folder: folderSlice,
+    expanded: expandedSlice,
   },
 });
 
