@@ -4,21 +4,21 @@ export const folderSlice = createSlice({
   name: "folder",
   initialState: {
     loading: false,
+    expanded: Array<number>(),
     value: [],
   },
   reducers: {
     set: (state, action) => {
       state.value = action.payload;
     },
-    update: (state) => {
-      state.loading = true;
-      fetch("http://localhost:7000/api/v1/folder/")
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Got data in store");
-          state.loading = false;
-          state.value = data;
-        });
+    expand: (state, action) => {
+      state.expanded.push(action.payload);
+    },
+    collapse: (state, action) => {
+      const index = state.expanded.indexOf(action.payload);
+      if (index > -1) {
+        state.expanded.splice(index, 1); // 2nd parameter means remove one item only
+      }
     },
   },
   extraReducers(builder) {
@@ -41,6 +41,6 @@ export const fetchFolder = createAsyncThunk("fetchFolder", async () => {
 });
 
 // Action creators are generated for each case reducer function
-export const { set } = folderSlice.actions;
+export const { set, expand, collapse } = folderSlice.actions;
 
 export default folderSlice.reducer;

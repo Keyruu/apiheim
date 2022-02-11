@@ -2,12 +2,14 @@ import { Button, Card, Text } from "@nextui-org/react";
 import { useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { SiGraphql, SiOpenapiinitiative } from "react-icons/si";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import apiSlice, { set } from "../app/apiSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import apiSlice, { set } from "../../app/apiSlice";
+import ApiDeleteModal from "./ApiDeleteModal";
 
 function Api(props: { api: any }) {
   const currentApi = useAppSelector((state) => state.api.value);
   const [hover, setHover] = useState(false);
+  const [apiDeleteVisible, setApiDeleteVisible] = useState(false);
   const dispatch = useAppDispatch();
 
   function getColor() {
@@ -23,10 +25,10 @@ function Api(props: { api: any }) {
     return currentApi.id === props.api.id ? "" : getColor();
   }
 
-  function deleteApi(event: React.MouseEvent<SVGElement, MouseEvent>) {
+  function openDeleteModal(event: React.MouseEvent<SVGElement, MouseEvent>) {
     event.stopPropagation();
-    event.currentTarget.blur();
-    console.log("delete");
+    setApiDeleteVisible(true);
+    console.log("delete not modal");
   }
 
   return (
@@ -35,6 +37,7 @@ function Api(props: { api: any }) {
         bordered
         hoverable
         clickable
+        shadow={false}
         color={currentApi.id !== props.api.id ? "default" : getColor()}
         onClick={() => dispatch(set(props.api))}
         onMouseEnter={() => setHover(true)}
@@ -60,31 +63,16 @@ function Api(props: { api: any }) {
           </div>
           {hover && (
             <div className="text-red-600 ml-auto hover:text-red-700 cursor-pointer">
-              <FaTrash onClick={deleteApi} />
+              <FaTrash onClick={openDeleteModal} />
             </div>
           )}
         </div>
       </Card>
-      {/* <Button
-        shadow
-        icon={
-          props.api.apiType === "GRAPHQL" ? (
-            <SiGraphql />
-          ) : (
-            <SiOpenapiinitiative />
-          )
-        }
-        color={props.api.apiType === "GRAPHQL" ? "secondary" : "primary"}
-        ghost={currentApi.id !== props.api.id}
-        css={{ textTransform: "none" }}
-        animated
-        onClick={() => dispatch(set(props.api))}
-      >
-        {props.api.name}
-      </Button>
-      <button className="text-red-700 hover:text-red-900">
-        <FaTrash className="m-2" />
-      </button> */}
+      <ApiDeleteModal
+        visible={apiDeleteVisible}
+        setVisible={setApiDeleteVisible}
+        api={props.api}
+      />
     </div>
   );
 }

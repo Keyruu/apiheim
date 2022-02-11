@@ -2,7 +2,7 @@ import "./App.css";
 import { createTheme, Grid, NextUIProvider } from "@nextui-org/react";
 import useDarkMode from "use-dark-mode";
 import Header from "./components/Header";
-import Apis from "./components/Apis";
+import ApiList from "./components/ApiList";
 import "./index.css";
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
@@ -33,6 +33,7 @@ const darkTheme = createTheme({
       gradient:
         "linear-gradient(45deg, var(--nextui-colors-pink300) 0%, var(--nextui-colors-blue400) 100%)",
       background: "#1d1d1d",
+      accents1: "#282727",
     },
   },
 });
@@ -49,12 +50,12 @@ function App() {
         <main>
           <div className="flex flex-row h-screen">
             <div className="w-1/6">
-              <Apis />
+              <ApiList />
             </div>
-            <div className="w-full h-full">
+            <div className="w-full h-full overflow-y-scroll">
               {api.name !== "" && (
                 <div
-                  className="mx-auto w-5/6 h-5/6 my-16 overflow-y-scroll border-2 hacky-dark-mode"
+                  className="mx-auto w-5/6 my-16"
                   style={{
                     filter: darkMode.value
                       ? "invert(1) hue-rotate(180deg)"
@@ -63,11 +64,13 @@ function App() {
                 >
                   {api.apiType === "REST" && <SwaggerUI url={api.url} />}
                   {api.apiType === "GRAPHQL" && (
-                    <GraphiQL
-                      fetcher={createGraphiQLFetcher({
-                        url: api.url,
-                      })}
-                    />
+                    <div className="h-[70rem]">
+                      <GraphiQL
+                        fetcher={createGraphiQLFetcher({
+                          url: api.url,
+                        })}
+                      />
+                    </div>
                   )}
                 </div>
               )}
