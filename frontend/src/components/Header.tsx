@@ -25,14 +25,6 @@ function Header() {
               heim
             </Text>
           </button>
-          <div>
-            <Input
-              clearable
-              contentRightStyling={false}
-              placeholder="Search"
-              contentRight={<FaSearch className="m-4" />}
-            />
-          </div>
         </div>
 
         <div className="flex justify-end flex-1 w-0 ">

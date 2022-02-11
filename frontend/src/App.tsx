@@ -9,7 +9,8 @@ import "swagger-ui-react/swagger-ui.css";
 import GraphiQL from "graphiql";
 import { createGraphiQLFetcher } from "@graphiql/toolkit";
 import { useSelector } from "react-redux";
-import { useAppSelector } from "./app/hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { fetchFolder } from "./app/folderSlice";
 
 const lightTheme = createTheme({
   type: "light",
@@ -39,6 +40,8 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const dispatch = useAppDispatch();
+  dispatch(fetchFolder());
   const darkMode = useDarkMode(false);
 
   const api = useAppSelector((state) => state.api.value);

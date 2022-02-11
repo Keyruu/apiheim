@@ -12,13 +12,18 @@ export const folderSlice = createSlice({
       state.value = action.payload;
     },
     expand: (state, action) => {
-      state.expanded.push(action.payload);
+      if (state.expanded.indexOf(action.payload) === -1) {
+        state.expanded.push(action.payload);
+      }
     },
     collapse: (state, action) => {
       const index = state.expanded.indexOf(action.payload);
       if (index > -1) {
         state.expanded.splice(index, 1); // 2nd parameter means remove one item only
       }
+    },
+    collapseAll: (state) => {
+      state.expanded = [];
     },
   },
   extraReducers(builder) {
@@ -41,6 +46,6 @@ export const fetchFolder = createAsyncThunk("fetchFolder", async () => {
 });
 
 // Action creators are generated for each case reducer function
-export const { set, expand, collapse } = folderSlice.actions;
+export const { set, expand, collapse, collapseAll } = folderSlice.actions;
 
 export default folderSlice.reducer;
