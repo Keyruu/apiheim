@@ -38,10 +38,6 @@ function ApiList() {
 
   const handler = () => setVisible(true);
 
-  useEffect(() => {
-    dispatch(fetchFolder());
-  }, [dispatch]);
-
   function mediaHandler() {
     setBigDisplay(window.matchMedia("(min-width: 2000px)").matches);
   }

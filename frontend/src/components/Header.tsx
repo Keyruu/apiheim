@@ -1,10 +1,15 @@
 import { Input, Switch, Text, useTheme } from "@nextui-org/react";
 import { FaMoon, FaSearch, FaSun } from "react-icons/fa";
 import useDarkMode from "use-dark-mode";
+import { fetchFolder } from "../app/folderSlice";
+import { useAppDispatch } from "../app/hooks";
 
 function Header() {
   const darkMode = useDarkMode(false);
   const { type, isDark } = useTheme();
+  const dispatch = useAppDispatch();
+
+  dispatch(fetchFolder());
 
   return (
     <header className="shadow-sm">
